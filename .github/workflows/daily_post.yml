@@ -2,23 +2,28 @@ name: "Daily ARC-AGI Puzzle Post"
 
 on:
   schedule:
-    - cron: "5 10 * * *" # Every day at 10:05 UTC
+    - cron: "5 8 * * *" # Every day at 08:05 UTC
+  workflow_dispatch:
+    
+permissions:
+  contents: read
 
-# TODO
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-      - run: npm ci
-      - run: npm run build
-      - name: Send post
-        run: npm start
-        env:
-          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
-          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.13"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run pipeline
+      run: |
+        python pipeline.py --github-token ${{ secrets.GITHUB_TOKEN }} --bsky-handle ${{ secrets.BSKY_HANDLE }} --bsky-pwd ${{ secrets.BSKY_PASSWORD }} --puzzle_id today
+        

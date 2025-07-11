@@ -1,0 +1,6 @@
+PyGithub
+numpy
+matplotlib
+opencv-python
+selenium
+atproto
