@@ -135,8 +135,6 @@ def main():
     args = parser.parse_args()
     
     print("Starting Daily Bluesky ARC-AGI Pipeline...")
-    print(f"Using GitHub token: {args.github_token}")
-    print(f"Using BlueSky handle: {args.bsky_handle}")
     # Get the puzzle ID
     if args.puzzle_id == 'today':
         dataset = 'evaluation'
