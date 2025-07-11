@@ -14,16 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+      BSKY_HANDLE: ${{ vars.BSKY_HANDLE }}
       BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
-      FALSE_VAR: ${{ secrets.FALSE_VAR }}
 
     steps:
     - uses: actions/checkout@v4
     - name: Test secret variable
       run: |
         echo "BSKY_HANDLE is set to: $BSKY_HANDLE"
-        echo "FALSE_VAR is set to: $FALSE_VAR"
     - name: Set up Python 3.13
       uses: actions/setup-python@v3
       with:
