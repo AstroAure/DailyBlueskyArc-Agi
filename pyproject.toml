@@ -1,10 +1,9 @@
 [project]
 name = "DailyBlueskyArc-Agi"
-version = "0.1.2"
+version = "0.1.0"
 description = "Bot to post daily ARC-AGI puzzles on BlueSky"
 authors = [{ name = "Aurelien Genin", email = "aurelien.genin@cube-monde.net" }]
 readme = "README.md"
-# atproto doesn't currently work on 3.13
 requires-python = ">=3.9"
 license = "GPL-3.0-or-later"
 dependencies = [
