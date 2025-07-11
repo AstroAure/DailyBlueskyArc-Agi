@@ -15,9 +15,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Test secret variable
-      run: |
-        echo "BSKY_HANDLE is set to: $BSKY_HANDLE"
     - name: Set up Python 3.13
       uses: actions/setup-python@v3
       with:
@@ -28,7 +25,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run pipeline
       run: |
-        python pipeline.py --puzzle_id today
+        python pipeline.py --puzzle_id random
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BSKY_HANDLE: ${{ vars.BSKY_HANDLE }}
