@@ -1,0 +1,24 @@
+name: "Daily ARC-AGI Puzzle Post"
+
+on:
+  schedule:
+    - cron: "5 10 * * *" # Every day at 10:05 UTC
+
+# TODO
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+      - run: npm ci
+      - run: npm run build
+      - name: Send post
+        run: npm start
+        env:
+          BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
+          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
