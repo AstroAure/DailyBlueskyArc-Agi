@@ -9,6 +9,7 @@ import cv2
 from selenium import webdriver
 import argparse
 import io
+import os
 
 # Color map for the puzzle grid
 colormap = ListedColormap([[0/255, 0/255, 0/255, 1],
@@ -123,9 +124,9 @@ def post_bluesky(bsky_handle, bsky_pwd, puzzle_id, img_data, date=None):
 
 def main():
     parser = argparse.ArgumentParser(description="Daily Bluesky ARC-AGI Pipeline")
-    parser.add_argument('--github_token', type=str, help='GitHub token for authentication', required=True)
-    parser.add_argument('--bsky_handle', type=str, help='Bluesky handle for authentication', required=True)
-    parser.add_argument('--bsky_pwd', type=str, help='Bluesky password for authentication', required=True)
+    parser.add_argument('--github_token', type=str, help='GitHub token for authentication', default=None)
+    parser.add_argument('--bsky_handle', type=str, help='Bluesky handle for authentication', default=None)
+    parser.add_argument('--bsky_pwd', type=str, help='Bluesky password for authentication', default=None)
     parser.add_argument('--puzzle_id', type=str, default='today', help="Puzzle ID to post, or 'today' or 'random' (default: today)")
     parser.add_argument('--save', help='Save the puzzle image', default=False, action='store_true')
     parser.add_argument('--show', help='Show the puzzle image', default=False, action='store_true')
@@ -133,6 +134,13 @@ def main():
     parser.add_argument('--dataset', type=str, default='evaluation', help='Dataset to use for puzzles (default: evaluation)', choices=['evaluation', 'test'])
     
     args = parser.parse_args()
+
+    if args.github_token is None:
+        args.github_token = os.getenv('GITHUB_TOKEN')
+    if args.bsky_handle is None:
+        args.bsky_handle = os.getenv('BSKY_HANDLE')
+    if args.bsky_pwd is None:
+        args.bsky_pwd = os.getenv('BSKY_PASSWORD')
     
     print("Starting Daily Bluesky ARC-AGI Pipeline...")
     # Get the puzzle ID

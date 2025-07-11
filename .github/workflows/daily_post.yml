@@ -12,10 +12,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BSKY_HANDLE: ${{ vars.BSKY_HANDLE }}
-      BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
@@ -32,5 +28,9 @@ jobs:
         pip install -r requirements.txt
     - name: Run pipeline
       run: |
-        python pipeline.py --github-token $GITHUB_TOKEN --bsky-handle $BSKY_HANDLE --bsky-pwd $BSKY_PASSWORD --puzzle_id today
-        
+        python pipeline.py --puzzle_id today
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BSKY_HANDLE: ${{ vars.BSKY_HANDLE }}
+        BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
+          
