@@ -3,7 +3,7 @@ name: "Daily ARC-AGI Puzzle Post"
 on:
   workflow_dispatch:
   schedule:
-    - cron: '5 12 * * *'
+    - cron: "/5 * * * *"
     
 permissions:
   contents: read
