@@ -1,4 +1,4 @@
-from github import Github
+from github import Github, Auth
 import numpy as np
 import json
 import matplotlib.pyplot as plt
@@ -58,9 +58,17 @@ def display_puzzle(puzzle_id, github_token, dataset='evaluation',
     """Display a puzzle with its training and test examples."""
     plt.style.use('dark_background')
     # Get the puzzle content
-    g = Github(github_token)  # Log in to GitHub
+    g = Github(auth=Auth.Token(github_token))  # Log in to GitHub
     repo = g.get_repo('arcprize/ARC-AGI-2')  # Get the repository
-    puzzle = json.loads(repo.get_contents(f"data/{dataset}/{puzzle_id}.json").decoded_content)
+    if dataset is list:
+        for ds in dataset:
+            try:
+                puzzle = json.loads(repo.get_contents(f"data/{ds}/{puzzle_id}.json").decoded_content)
+                break
+            except:
+                continue
+    else:
+        puzzle = json.loads(repo.get_contents(f"data/{dataset}/{puzzle_id}.json").decoded_content)
     n_train = len(puzzle['train']) # Number of training examples
     # Setting up the figure and grid layout
     pad = 0.1
@@ -145,7 +153,7 @@ def main():
     print("Starting Daily Bluesky ARC-AGI Pipeline...")
     # Get the puzzle ID
     if args.puzzle_id == 'today':
-        dataset = 'evaluation'
+        dataset = ['evaluation', 'training']
         puzzle_id, date = get_today_id()
     elif args.puzzle_id == 'random':
         dataset = args.dataset
