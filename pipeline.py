@@ -60,7 +60,7 @@ def display_puzzle(puzzle_id, github_token, dataset='evaluation',
     # Get the puzzle content
     g = Github(auth=Auth.Token(github_token))  # Log in to GitHub
     repo = g.get_repo('arcprize/ARC-AGI-2')  # Get the repository
-    if dataset is list:
+    if type(dataset) is list:
         for ds in dataset:
             try:
                 puzzle = json.loads(repo.get_contents(f"data/{ds}/{puzzle_id}.json").decoded_content)
